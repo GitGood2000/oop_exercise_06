@@ -31,30 +31,30 @@ int main() {
     int command, pos;
 
     while(true) {
-        //std::cout << std::endl;
-        //std::cout << "0 - Quit" << std::endl;
-        //std::cout << "1 - Add element to list (push front / by index)" << std::endl;
-        //std::cout << "2 - Delete element from list (pop front / erase by index / erase by iterator)" << std::endl;
-        //std::cout << "3 - Print all elements" << std::endl;
-        //std::cout << "4 - Count_if example (with areas)" << std::endl;
-        //std::cout << "5 - Print element by [index]" << std::endl;
+        std::cout << std::endl;
+        std::cout << "0 - Quit" << std::endl;
+        std::cout << "1 - Add element to list (push front / by index)" << std::endl;
+        std::cout << "2 - Delete element from list (pop front / erase by index / erase by iterator)" << std::endl;
+        std::cout << "3 - Print all elements" << std::endl;
+        std::cout << "4 - Count_if example (with areas)" << std::endl;
+        std::cout << "5 - Print element by [index]" << std::endl;
         std::cin >> command;
 
         if(command == cmd_quit) {
             break;
 
         } else if(command == cmd_add) {
-            //std::cout << "Enter coordinates" << std::endl;
+            std::cout << "Enter coordinates" << std::endl;
             square<double> square(std::cin);
 
-            //std::cout << "0 - PushFront" << std::endl;
-            //std::cout << "1 - Insert by index" << std::endl;
+            std::cout << "0 - PushFront" << std::endl;
+            std::cout << "1 - Insert by index" << std::endl;
             std::cin >> command;
             if(command == add_push) {
                 list.push(square);
                 continue;
             } else if(command == add_idx) {
-                //std::cout << "Enter index" << std::endl;
+                std::cout << "Enter index" << std::endl;
                 std::cin >> pos;
                 list.insert(pos, square);
                 continue;
@@ -65,17 +65,17 @@ int main() {
             }
 
         } else if(command == 2) {
-            //std::cout << "0 - Erase by index" << std::endl;
-            //std::cout << "1 - Erase by iterator" << std::endl;
-            //std::cout << "2 - Pop front" << std::endl;
+            std::cout << "0 - Erase by index" << std::endl;
+            std::cout << "1 - Erase by iterator" << std::endl;
+            std::cout << "2 - Pop front" << std::endl;
             std::cin >> command;
             if(command == rmv_idx) {
-                //std::cout << "Enter index" << std::endl;
+                std::cout << "Enter index" << std::endl;
                 std::cin >> pos;
                 list.erase(pos);
                 continue;
             } else if(command == rmv_itr) {
-                //std::cout << "Enter index" << std::endl;
+                std::cout << "Enter index" << std::endl;
                 std::cin >> pos;
                 auto temp = list.begin();
                 for(int i = 0; i < pos; ++i) {
@@ -107,14 +107,14 @@ int main() {
             }
 
         } else if(command == cmd_count) {
-            //std::cout << "Enter required area" << std::endl;
+            std::cout << "Enter required area" << std::endl;
             std::cin >> pos;
             std::cout << "Number of squares with area less than " << pos << " equals ";
             std::cout << std::count_if(list.begin(), list.end(), [pos](square<double> square) {return square.area() < pos;}) << std::endl;
             continue;
 
         } else if (command == cmd_print) {
-            //std::cout << "Enter index to print for" << std::endl;
+            std::cout << "Enter index to print for" << std::endl;
             std::cin >> pos;
             try {
                 list[pos].print(std::cout);
