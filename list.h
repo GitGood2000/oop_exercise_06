@@ -158,8 +158,8 @@ template<class T, class Allocator>
 		auto temp = d_it.ptr_->prev_element;
 		unique_ptr temp1 = std::move(d_it.ptr_->next_element);
 		d_it.ptr_ = d_it.ptr_->prev_element;
+		d_it.ptr_->next_element->prev_element = temp;
 		d_it.ptr_->next_element = std::move(temp1);
-		//d_it.ptr_->next_element->prev_element = temp;
 		size--;
 	}
 
