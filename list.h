@@ -34,8 +34,11 @@ public:
     forward_iterator begin();
 	forward_iterator end();
 	void push(const T& value);
+	void push_b(const T& value);
 	T& front();
+	T& back();
 	void popFront();
+	void popBack();
 	size_t length();
 	bool empty();
 	void erase(forward_iterator d_it);
@@ -113,6 +116,24 @@ template<class T, class Allocator>
 			tail = head->next_element.get();
 		}
 	}
+	
+	template<class T, class Allocator>
+	void list<T, Allocator>::push_b(const T& value) {
+		node_t* result = this->allocator_.allocate(1); 
+		std::allocator_traits<allocator_type>::construct(this->allocator_, result, value);
+		if (!size) {
+			head = unique_ptr(result, deleter{ &this->allocator_ });
+			tail = head.get();
+			size++;
+			return;
+		}
+		tail->next_element = unique_ptr(result, deleter{ &this->allocator_ });
+		node_t* temp =  tail;
+		tail = tail->next_element.get();
+		tail->prev_element = temp;
+		size++;
+	}
+
 
 	template<class T, class Allocator>
 	void list<T, Allocator>::popFront() {
@@ -131,6 +152,22 @@ template<class T, class Allocator>
 		size--;
 	}
 	
+	template<class T, class Allocator>
+	void list<T, Allocator>::popBack() {
+		if (size == 0) {
+			throw std::logic_error("Deleting from empty list");
+		}
+		if (tail->prev_element){
+			node_t* tmp = tail->prev_element;
+			tail->prev_element->next_element = nullptr;
+			tail = tmp;
+		}
+		else{
+			head = nullptr;
+			tail = nullptr;
+		}
+		size--;
+	}
 
 	template<class T, class Allocator>
 	T& list<T, Allocator>::front() {
@@ -152,6 +189,10 @@ template<class T, class Allocator>
 		if (d_it == end) throw std::logic_error("Out of bounds");
 		if (d_it == this->begin()) {
 			this->popFront();
+			return;
+		}
+		if (d_it.ptr_ == tail) {
+			this->popBack();
 			return;
 		}
 		if (d_it.ptr_ == nullptr) throw std::logic_error("Out of bounds");
@@ -177,6 +218,10 @@ template<class T, class Allocator>
 		
 		if (ins_it == this->begin()) {
 			this->push(value);
+			return;
+		}
+		if(ins_it.ptr_ == nullptr){
+			this->push_b(value);
 			return;
 		}
         
